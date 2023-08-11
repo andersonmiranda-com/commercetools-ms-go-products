@@ -22,9 +22,7 @@ func main() {
 		log.Fatalf("Error loading .env file: %v", err)
 	}
 
-	// Create the new client. When an empty value is passed it will use the CTP_*
-	// environment variables to get the value. The HTTPClient arg is optional,
-	// and when empty will automatically be created using the env values.
+	// Create the new client.
 	client, err := platform.NewClient(&platform.ClientConfig{
 		URL: os.Getenv("CT_API_URL"),
 		Credentials: &clientcredentials.Config{
