@@ -38,19 +38,15 @@ func TestGenerateWhereClause(t *testing.T) {
 }
 
 func TestConvertToSlice(t *testing.T) {
-	data := "[\"test1\", \"test2\"]"
+	data := "[test1,test2]"
 	res, err := ConvertToSlice(data)
 	assert.Nil(t, err)
 	assert.Equal(t, []string{"test1", "test2"}, res)
 
-	data = "\"test1\""
+	data = "test1"
 	res, err = ConvertToSlice(data)
 	assert.Nil(t, err)
 	assert.Equal(t, []string{"test1"}, res)
-
-	data = "1234"
-	_, err = ConvertToSlice(data)
-	assert.NotNil(t, err)
 }
 
 func TestResponse(t *testing.T) {

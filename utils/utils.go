@@ -1,11 +1,11 @@
 package utils
 
 import (
-	"encoding/json"
-	"fmt"
 	"net/http"
+	"strings"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/labd/commercetools-go-sdk/platform"
 )
 
 func GetWhereClause(c *fiber.Ctx) []string {
@@ -67,26 +67,35 @@ func generateWhereClause(name, slug, key, locale string) []string {
 }
 
 func ConvertToSlice(input string) ([]string, error) {
-	var resultSlice []string
-	errSlice := json.Unmarshal([]byte(input), &resultSlice)
-	if errSlice == nil {
+	if strings.HasPrefix(input, "[") && strings.HasSuffix(input, "]") {
+		trimmed := strings.Trim(input, "[]")
+		resultSlice := strings.Split(trimmed, ",")
+		for i, val := range resultSlice {
+			resultSlice[i] = strings.TrimSpace(val) // remove potential whitespace
+		}
 		return resultSlice, nil
 	}
 
-	var resultString string
-	errString := json.Unmarshal([]byte(input), &resultString)
-	if errString == nil {
-		return []string{resultString}, nil
-	}
-
-	return nil, fmt.Errorf("input is neither a valid string nor a valid array of strings")
+	return []string{input}, nil
 }
 
 func Response(data interface{}, httpStatus int, err error, c *fiber.Ctx) error {
+
 	if err != nil {
-		return c.Status(http.StatusInternalServerError).JSON(map[string]string{
-			"error": err.Error(),
-		})
+		if err.Error() == "resource not found" {
+			return c.Status(404).JSON(map[string]string{
+				"error": err.Error(),
+			})
+		} else if reqErr, ok := err.(platform.ErrorResponse); ok {
+			return c.Status(reqErr.StatusCode).JSON(map[string]string{
+				"error": err.Error(),
+			})
+		} else {
+			return c.Status(http.StatusInternalServerError).JSON(map[string]string{
+				"error": err.Error(),
+			})
+		}
+
 	} else {
 		if data != nil {
 			return c.Status(httpStatus).JSON(data)

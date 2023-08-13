@@ -5,7 +5,7 @@ import (
 	"context"
 	"log"
 
-	"github.com/andersonmiranda-com/commercetools-go-sdk/platform"
+	"github.com/labd/commercetools-go-sdk/platform"
 	"golang.org/x/oauth2/clientcredentials"
 )
 
