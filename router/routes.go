@@ -22,5 +22,6 @@ func SetupRoutes(app *fiber.App) {
 	})
 
 	api.Get("/", controller.Find)
+	api.Get("/:id", controller.Get)
 
 }

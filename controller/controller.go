@@ -3,26 +3,48 @@ package controller
 import (
 	"commercetools-ms-product/service"
 	"commercetools-ms-product/utils"
-	"fmt"
 	"net/http"
 	"strconv"
 
 	"github.com/gofiber/fiber/v2"
 )
 
-func Find(c *fiber.Ctx) error {
+func Get(c *fiber.Ctx) error {
 
-	where := utils.GetWhereClause(c)
-	fmt.Println(where)
+	id := c.Params("id")
 
 	projectClient, ctx := service.Connector()
-	productsGetter := projectClient.Products().Get().Where(where)
+	productsGetter := projectClient.Products().WithId(id).Get()
 
+	expand := c.Query("expand")
+
+	if expand != "" {
+		if expandSlice, err := utils.ConvertToSlice(expand); err == nil {
+			productsGetter = productsGetter.Expand(expandSlice)
+		}
+	}
+
+	productResults, err := productsGetter.Execute(ctx)
+	return utils.Response(productResults, http.StatusOK, err, c)
+}
+
+func Find(c *fiber.Ctx) error {
+
+	where := c.Query("where")
 	expand := c.Query("expand")
 	sort := c.Query("sort")
 	limitStr := c.Query("limit")
 	offsetStr := c.Query("offset")
 	withTotalStr := c.Query("withTotal")
+
+	projectClient, ctx := service.Connector()
+	productsGetter := projectClient.Products().WithId("").
+
+	if where != "" {
+		if whereSlice, err := utils.ConvertToSlice(where); err == nil {
+			productsGetter = productsGetter.Where(whereSlice)
+		}
+	}
 
 	if expand != "" {
 		if expandSlice, err := utils.ConvertToSlice(expand); err == nil {
@@ -49,10 +71,5 @@ func Find(c *fiber.Ctx) error {
 	}
 
 	productResults, err := productsGetter.Execute(ctx)
-
-	if err != nil {
-		return c.Status(500).SendString(err.Error())
-	}
-
 	return utils.Response(productResults, http.StatusOK, err, c)
 }

@@ -3,9 +3,11 @@ module commercetools-ms-product
 go 1.21
 
 require (
-	github.com/andersonmiranda-com/commercetools-go-sdk v0.0.0-20230811082809-f3973f4a123d
 	github.com/gofiber/fiber/v2 v2.48.0
 	github.com/joho/godotenv v1.5.1
+	github.com/labd/commercetools-go-sdk v1.3.1
+	github.com/stretchr/testify v1.8.4
+	github.com/valyala/fasthttp v1.48.0
 	golang.org/x/oauth2 v0.11.0
 )
 
@@ -21,9 +23,7 @@ require (
 	github.com/mitchellh/mapstructure v1.3.2 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/rivo/uniseg v0.2.0 // indirect
-	github.com/stretchr/testify v1.8.4 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
-	github.com/valyala/fasthttp v1.48.0 // indirect
 	github.com/valyala/tcplisten v1.0.0 // indirect
 	golang.org/x/net v0.14.0 // indirect
 	golang.org/x/sys v0.11.0 // indirect
