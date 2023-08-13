@@ -38,7 +38,7 @@ func Find(c *fiber.Ctx) error {
 	withTotalStr := c.Query("withTotal")
 
 	projectClient, ctx := service.Connector()
-	productsGetter := projectClient.Products().WithId("").
+	productsGetter := projectClient.Products().Get()
 
 	if where != "" {
 		if whereSlice, err := utils.ConvertToSlice(where); err == nil {
@@ -68,6 +68,29 @@ func Find(c *fiber.Ctx) error {
 
 	if withTotal, err := strconv.ParseBool(withTotalStr); err == nil {
 		productsGetter = productsGetter.WithTotal(withTotal)
+	}
+
+	productResults, err := productsGetter.Execute(ctx)
+	return utils.Response(productResults, http.StatusOK, err, c)
+}
+
+func Remove(c *fiber.Ctx) error {
+
+	id := c.Params("id")
+	versionStr := c.Query("version")
+	expand := c.Query("expand")
+
+	projectClient, ctx := service.Connector()
+	productsGetter := projectClient.Products().WithId(id).Delete()
+
+	if version, err := strconv.Atoi(versionStr); err == nil {
+		productsGetter = productsGetter.Version(version)
+	}
+
+	if expand != "" {
+		if expandSlice, err := utils.ConvertToSlice(expand); err == nil {
+			productsGetter = productsGetter.Expand(expandSlice)
+		}
 	}
 
 	productResults, err := productsGetter.Execute(ctx)
