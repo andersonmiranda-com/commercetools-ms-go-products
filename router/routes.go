@@ -23,6 +23,10 @@ func SetupRoutes(app *fiber.App) {
 
 	api.Get("/", controller.Find)
 	api.Get("/:id", controller.Get)
+	api.Post("/", controller.Create)
+	api.Put("/:id", controller.Update)
+	api.Patch("/publish/:id", controller.Publish)
+	api.Patch("/unpublish/:id", controller.Unpublish)
 	api.Delete("/:id", controller.Remove)
 
 }
