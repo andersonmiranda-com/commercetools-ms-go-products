@@ -1,7 +1,6 @@
 package main
 
 import (
-	"commercetools-ms-product/router"
 	"commercetools-ms-product/service"
 	"log"
 
@@ -10,9 +9,9 @@ import (
 )
 
 func main() {
-	service.TestConnection()
+	ctService := service.NewService()
 	app := fiber.New()
 	app.Use(logger.New())
-	router.SetupRoutes(app)
+	service.SetupRoutes(app, ctService)
 	log.Fatal(app.Listen(":4444"))
 }
