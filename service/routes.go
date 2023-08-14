@@ -1,13 +1,12 @@
-package router
+package service
 
 import (
-	"commercetools-ms-product/controller"
 	"net/http"
 
 	"github.com/gofiber/fiber/v2"
 )
 
-func SetupRoutes(app *fiber.App) {
+func SetupRoutes(app *fiber.App, service Service) {
 
 	// Middleware
 	// api := app.Group("/api", middleware.AuthReq())
@@ -21,19 +20,18 @@ func SetupRoutes(app *fiber.App) {
 			})
 	})
 
-	api.Get("/", controller.Find)
-	api.Get("/:id", controller.Get)
-	api.Post("/", controller.Create)
-	api.Put("/:id", controller.Update)
+	api.Get("/:id", service.Get)
+	api.Get("/", service.Find)
+	api.Post("/", service.Create)
+	api.Put("/:id", service.Update)
+	api.Delete("/:id", service.Remove)
 
 	api.Patch("/publish/:id", func(c *fiber.Ctx) error {
-		return controller.SetPublishStatus("publish", c)
+		return service.SetPublishStatus("publish", c)
 	})
 
 	api.Patch("/unpublish/:id", func(c *fiber.Ctx) error {
-		return controller.SetPublishStatus("unpublish", c)
+		return service.SetPublishStatus("unpublish", c)
 	})
-
-	api.Delete("/:id", controller.Remove)
 
 }

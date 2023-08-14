@@ -2,14 +2,31 @@ package service
 
 import (
 	"commercetools-ms-product/config"
-	"context"
 	"log"
 
+	"github.com/gofiber/fiber/v2"
 	"github.com/labd/commercetools-go-sdk/platform"
 	"golang.org/x/oauth2/clientcredentials"
 )
 
-func Connector() (*platform.ByProjectKeyRequestBuilder, context.Context) {
+type ctService struct {
+	Connection *platform.ByProjectKeyRequestBuilder
+}
+
+type Service interface {
+	Get(c *fiber.Ctx) error
+	Find(c *fiber.Ctx) error
+	Create(c *fiber.Ctx) error
+	Update(c *fiber.Ctx) error
+	Remove(c *fiber.Ctx) error
+	SetPublishStatus(action string, c *fiber.Ctx) error
+}
+
+func NewService() Service {
+	return &ctService{Connection: NewConnection()}
+}
+
+func NewConnection() *platform.ByProjectKeyRequestBuilder {
 
 	client, err := platform.NewClient(&platform.ClientConfig{
 		URL: config.Getenv("CT_API_URL"),
@@ -26,16 +43,7 @@ func Connector() (*platform.ByProjectKeyRequestBuilder, context.Context) {
 	}
 
 	projectClient := client.WithProjectKey(config.Getenv("CT_PROJECT_KEY"))
-	ctx := context.Background()
 
-	return projectClient, ctx
+	return projectClient
 
-}
-
-func TestConnection() {
-	projectClient, ctx := Connector()
-	_, err := projectClient.Get().Execute(ctx)
-	if err != nil {
-		log.Fatalf("Error connecting to CommerceTools:\n%v", err)
-	}
 }
