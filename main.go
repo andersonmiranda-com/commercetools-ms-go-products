@@ -1,8 +1,8 @@
 package main
 
 import (
-	"commercetools-ms-product/config"
 	"commercetools-ms-product/router"
+	"commercetools-ms-product/service"
 	"log"
 
 	"github.com/gofiber/fiber/v2"
@@ -10,8 +10,9 @@ import (
 )
 
 func main() {
+	service.TestConnection()
 	app := fiber.New()
 	app.Use(logger.New())
 	router.SetupRoutes(app)
-	log.Fatal(app.Listen(":" + config.Getenv("PORT")))
+	log.Fatal(app.Listen(":4444"))
 }
