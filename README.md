@@ -95,7 +95,7 @@ Refer to [Commercetools documentation](https://docs.commercetools.com/api/projec
 #### Example Request
 
 ```
-curl --location 'http://localhost:4444/api/products/29bae503-3058-400a-b0f6-db7aaf2aae11'
+curl --location 'http://localhost:4444/29bae503-3058-400a-b0f6-db7aaf2aae11'
 ```
 
 Accepted query parameters:
@@ -183,7 +183,7 @@ Refer to [Commercetools documentation](https://docs.commercetools.com/api/projec
 #### Example Request
 
 ```
-curl --location --request PUT 'http://localhost:4444/api/products/04427947-f75b-4fde-995f-3d0a0d27c541' \
+curl --location --request PUT 'http://localhost:4444/04427947-f75b-4fde-995f-3d0a0d27c541' \
 --header 'Content-Type: application/json' \
 --data '{
   "version" : 2,
@@ -217,13 +217,13 @@ Refer to [Commercetools documentation](https://docs.commercetools.com/api/projec
 #### Example Request
 
 ```
-curl --location --request PATCH 'http://localhost:4444/api/products/publish/04427947-f75b-4fde-995f-3d0a0d27c541'
+curl --location --request PATCH 'http://localhost:4444/publish/04427947-f75b-4fde-995f-3d0a0d27c541'
 ```
 
 Equivalent to:
 
 ```
-curl --location --request PUT 'http://localhost:4444/api/products/04427947-f75b-4fde-995f-3d0a0d27c541' \
+curl --location --request PUT 'http://localhost:4444/04427947-f75b-4fde-995f-3d0a0d27c541' \
 --header 'Content-Type: application/json' \
 --data '{
   "version" : 2,
@@ -254,13 +254,13 @@ Refer to [Commercetools documentation](https://docs.commercetools.com/api/projec
 #### Example Request
 
 ```
-curl --location --request PATCH 'http://localhost:4444/api/products/unpublish/04427947-f75b-4fde-995f-3d0a0d27c541'
+curl --location --request PATCH 'http://localhost:4444/unpublish/04427947-f75b-4fde-995f-3d0a0d27c541'
 ```
 
 Equivalent to:
 
 ```
-curl --location --request PUT 'http://localhost:4444/api/products/04427947-f75b-4fde-995f-3d0a0d27c541' \
+curl --location --request PUT 'http://localhost:4444/04427947-f75b-4fde-995f-3d0a0d27c541' \
 --header 'Content-Type: application/json' \
 --data '{
   "version" : 2,
@@ -289,7 +289,7 @@ Refer to [Commercetools documentation](https://docs.commercetools.com/api/projec
 #### Example Request
 
 ```
-curl --location --request DELETE 'http://localhost:4444/api/products/ccaf601d-169e-493e-96b1-47741d37df8f'
+curl --location --request DELETE 'http://localhost:4444/ccaf601d-169e-493e-96b1-47741d37df8f'
 ```
 
 Accepted query parameters
