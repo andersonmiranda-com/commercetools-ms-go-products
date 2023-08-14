@@ -26,12 +26,12 @@ func SetupRoutes(app *fiber.App, service Service) {
 	api.Put("/:id", service.Update)
 	api.Delete("/:id", service.Remove)
 
-	// api.Patch("/publish/:id", func(c *fiber.Ctx) error {
-	// 	return controller.SetPublishStatus("publish", c)
-	// })
+	api.Patch("/publish/:id", func(c *fiber.Ctx) error {
+		return service.SetPublishStatus("publish", c)
+	})
 
-	// api.Patch("/unpublish/:id", func(c *fiber.Ctx) error {
-	// 	return controller.SetPublishStatus("unpublish", c)
-	// })
+	api.Patch("/unpublish/:id", func(c *fiber.Ctx) error {
+		return service.SetPublishStatus("unpublish", c)
+	})
 
 }

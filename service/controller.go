@@ -3,8 +3,10 @@ package service
 import (
 	"commercetools-ms-product/utils"
 	"context"
+	"encoding/json"
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/labd/commercetools-go-sdk/platform"
@@ -119,8 +121,7 @@ func (ct *ctService) Remove(c *fiber.Ctx) error {
 	return utils.Response(productResults, http.StatusOK, err, c)
 }
 
-/*
-func SetPublishStatus(action string, c *fiber.Ctx) error {
+func (ct *ctService) SetPublishStatus(action string, c *fiber.Ctx) error {
 
 	id := c.Params("id")
 
@@ -132,9 +133,10 @@ func SetPublishStatus(action string, c *fiber.Ctx) error {
 		})
 	}
 
+	ctx := context.Background()
+
 	// Get oldProduct version
-	projectClient, ctx := service.Connector()
-	oldProduct, err := projectClient.Products().WithId(id).Get().Execute(ctx)
+	oldProduct, err := ct.Connection.Products().WithId(id).Get().Execute(ctx)
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"error": err.Error(),
@@ -156,9 +158,6 @@ func SetPublishStatus(action string, c *fiber.Ctx) error {
 		})
 	}
 
-	productResults, err := projectClient.Products().WithId(id).Post(productUpdate).WithQueryParams(queryArgs).Execute(ctx)
+	productResults, err := ct.Connection.Products().WithId(id).Post(productUpdate).WithQueryParams(queryArgs).Execute(ctx)
 	return utils.Response(productResults, http.StatusOK, err, c)
 }
-
-
-*/
