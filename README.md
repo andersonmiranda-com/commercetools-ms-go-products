@@ -244,7 +244,7 @@ Query parameters
     expand             
 ```
 
-### Unublish a Product by ID
+### Unpublish a Product by ID
 
 `PATCH /unpublish/:id`
 
