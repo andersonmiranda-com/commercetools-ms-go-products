@@ -1,49 +1,50 @@
 # commercetools-ms-go-products
 
-A product service meant to be a proxy between your application and [Commerce Tools products](https://docs.commercetools.com/api/projects/products) endpoints, writen in Go.
+A product service designed as a proxy between your application and [commercetools Products API](https://docs.commercetools.com/api/projects/products). This service is built using Go.
 
-## Technologies
-  
--   [Go 1.21](https://nodejs.org/docs/latest-v18.x/api/)
--   [Commercetools Go SDK](https://github.com/labd/commercetools-go-sdk/tree/main): SDK for Commercetools on Go
--   [FiberGo](https://github.com/gofiber/fiber): http Server
--   [Docker](https://www.docker.com/): For container generation
+## 🛠 Technologies Used
 
-## Environment variables
+- [Go 1.21](https://golang.org/doc/go1.21)
+- [Commercetools Go SDK](https://github.com/labd/commercetools-go-sdk/tree/main) - SDK for Commercetools in Go.
+- [FiberGo](https://github.com/gofiber/fiber) - An efficient http server.
+- [Docker](https://www.docker.com/) - For creating and managing containers.
 
-The following variables must be defined/overwritten so that the service can work properly
+## ⚙️ Configuration: Environment Variables
 
-| VARIABLE                  | DESCRIPTION                   | DEFAULT                         |
-| ------------------------- | ----------------------------- | ------------------------------- |
-| CT_API_URL                | commercetools API URL         | [https://api.commercetools.co](https://api.commercetools.co)  |
-| CT_AUTH_URL               | commercetools auth URL        | [https://auth.commercetools.co](https://api.commercetools.co)  |
-| CT_PROJECT_KEY            | commercetools project key     | -                               |
-| CT_CLIENT_ID              | commercetools client id       | -                               |
-| CT_CLIENT_SECRET          | commercetools client secret   | -                               |
-| CT_SCOPE                  | commercetools scope           | -                               |
+Ensure the following environment variables are set for the service to function correctly:
 
-## Running
+| VARIABLE                  | DESCRIPTION                   | DEFAULT VALUE                                         |
+| ------------------------- | ----------------------------- | ----------------------------------------------------- |
+| CT_API_URL                | commercetools API URL         | [https://api.commercetools.co](https://api.commercetools.co) |
+| CT_AUTH_URL               | commercetools Auth URL        | [https://auth.commercetools.co](https://auth.commercetools.co) |
+| CT_PROJECT_KEY            | commercetools Project Key     | Not set                                               |
+| CT_CLIENT_ID              | commercetools Client ID       | Not set                                               |
+| CT_CLIENT_SECRET          | commercetools Client Secret   | Not set                                               |
+| CT_SCOPE                  | commercetools Scope           | Not set                                               |
 
-### Local
+## 🚀 Getting Started
 
-Add a local .env file with the environment variables
+### Running Locally:
 
-Load dependency modules
+1. Create a `.env` file at the root of the project and populate it with the required environment variables.
+2. Install dependencies:
 
-`go mod download`
+   ```bash
+   go mod download
+   ``````
 
-Run
+3. Run the service
 
 `go run main.go`
 
 ### Using docker
 
-```shell
+```bash
 docker build -t commercetools-ms-product .
 docker run -p 4444:4444 --env-file ./.env commercetools-ms-product
 ```
 
-## Routes
+## 🚦 API Routes
 
 ```shell
 GET /
@@ -55,34 +56,39 @@ PATCH /unpublish/:id
 DELETE /:id
 ```
 
----
 
-## Request Examples
+
+## 📝 API Usage Examples
 
 ### Query products
 
 `GET /`
 
-[Commercetools documentation](https://docs.commercetools.com/api/projects/products#query-products)
+For more detailed information, refer to the official [commercetools documentation](https://docs.commercetools.com/api/projects/products#query-products).
+
+#### Example Request
 
 ```
 curl --location 'http://localhost:4444/api/products?limit=10&expand=productType&where=(masterData(current(name(en%3D%22Bag%20%E2%80%9DAlexis%E2%80%9D%20medium%20Michael%20Kors%22))))&sort=id&sort=key'
 ```
 
-Query parameters
+Accepted query parameters:
+
+- where
+- priceCurrency     
+- priceCountry      
+- priceCustomerGroup
+- priceChannel      
+- localeProjection   
+- expand
+- sort 
+- limit
+- offset
+- withTotal
+
 
 ```
-    where              
-    priceCurrency     
-    priceCountry      
-    priceCustomerGroup
-    priceChannel      
-    localeProjection   
-    expand             
-    sort               
-    limit          
-    offset         
-    withTotal       
+where, priceCurrency, priceCountry, priceCustomerGroup, priceChannel, localeProjection, expand, sort, limit, offset, withTotal    
 ```
 
 
@@ -90,31 +96,31 @@ Query parameters
 
 `GET /:id`
 
-[Commercetools documentation](https://docs.commercetools.com/api/projects/products#get-product-by-id)
+Refer to [Commercetools documentation](https://docs.commercetools.com/api/projects/products#get-product-by-id) for more details.
 
+#### Example Request
 
 ```
 curl --location 'http://localhost:4444/api/products/29bae503-3058-400a-b0f6-db7aaf2aae11'
 ```
 
-Query parameters
+Accepted query parameters:
 
-```
-    priceCurrency     
-    priceCountry      
-    priceCustomerGroup
-    priceChannel      
-    localeProjection   
-    expand             
-```
+- priceCurrency     
+- priceCountry      
+- priceCustomerGroup
+- priceChannel      
+- localeProjection   
+- expand   
 
 
 ### Create Product
 
 `POST /`
 
+Refer to  [Commercetools documentation](https://docs.commercetools.com/api/projects/products#create-product) for more details.
 
-[Commercetools documentation](https://docs.commercetools.com/api/projects/products#create-product)
+#### Example Request
 
 ```
 curl --location 'http://localhost:4444/api/products?expand=productType' \
@@ -164,23 +170,23 @@ curl --location 'http://localhost:4444/api/products?expand=productType' \
 }'
 ```
 
-Query parameters
+Accepted query parameters:
 
-```
-    priceCurrency     
-    priceCountry      
-    priceCustomerGroup
-    priceChannel      
-    localeProjection   
-    expand             
-```
+- priceCurrency     
+- priceCountry      
+- priceCustomerGroup
+- priceChannel      
+- localeProjection   
+- expand             
 
 
 ### Update Product by ID
 
 `PUT /:id`
 
-[Commercetools documentation](https://docs.commercetools.com/api/projects/products#update-product-by-id)
+Refer to [Commercetools documentation](https://docs.commercetools.com/api/projects/products#update-product-by-id) for more details.
+
+#### Example Request
 
 ```
 curl --location --request PUT 'http://localhost:4444/api/products/04427947-f75b-4fde-995f-3d0a0d27c541' \
@@ -196,16 +202,15 @@ curl --location --request PUT 'http://localhost:4444/api/products/04427947-f75b-
 }'
 ```
 
-Query parameters
+Accepted query parameters
 
-```
-    priceCurrency     
-    priceCountry      
-    priceCustomerGroup
-    priceChannel      
-    localeProjection   
-    expand             
-```
+- priceCurrency     
+- priceCountry      
+- priceCustomerGroup
+- priceChannel      
+- localeProjection   
+- expand
+
 
 ### Publish a Product by ID
 
@@ -213,7 +218,9 @@ Query parameters
 
 Get the last product version and send an update with `"action" : "publish"`
 
-[Commercetools documentation](https://docs.commercetools.com/api/projects/products#update-product-by-id)
+Refer to [Commercetools documentation](https://docs.commercetools.com/api/projects/products#update-product-by-id) for more details.
+
+#### Example Request
 
 ```
 curl --location --request PATCH 'http://localhost:4444/api/products/publish/04427947-f75b-4fde-995f-3d0a0d27c541'
@@ -232,17 +239,15 @@ curl --location --request PUT 'http://localhost:4444/api/products/04427947-f75b-
 }'
 ```
 
+Accepted query parameters
 
-Query parameters
+- priceCurrency     
+- priceCountry      
+- priceCustomerGroup
+- priceChannel      
+- localeProjection   
+- expand
 
-```
-    priceCurrency     
-    priceCountry      
-    priceCustomerGroup
-    priceChannel      
-    localeProjection   
-    expand             
-```
 
 ### Unpublish a Product by ID
 
@@ -250,7 +255,9 @@ Query parameters
 
 Get the last product version and send an update with `"action" : "unpublish"`
 
-[Commercetools documentation](https://docs.commercetools.com/api/projects/products#update-product-by-id)
+Refer to [Commercetools documentation](https://docs.commercetools.com/api/projects/products#update-product-by-id) for more details.
+
+#### Example Request
 
 ```
 curl --location --request PATCH 'http://localhost:4444/api/products/unpublish/04427947-f75b-4fde-995f-3d0a0d27c541'
@@ -269,37 +276,36 @@ curl --location --request PUT 'http://localhost:4444/api/products/04427947-f75b-
 }'
 ```
 
-Query parameters
+Accepted query parameters
 
-```
-    priceCurrency     
-    priceCountry      
-    priceCustomerGroup
-    priceChannel      
-    localeProjection   
-    expand             
-```
+- priceCurrency     
+- priceCountry      
+- priceCustomerGroup
+- priceChannel      
+- localeProjection   
+- expand
+
 
 ### Delete product by ID
 
 `DELETE /:id`
 
-[Commercetools documentation](https://docs.commercetools.com/api/projects/products#delete-product-by-id)
+Refer to [Commercetools documentation](https://docs.commercetools.com/api/projects/products#delete-product-by-id) for more details.
+
+#### Example Request
 
 ```
 curl --location --request DELETE 'http://localhost:4444/api/products/ccaf601d-169e-493e-96b1-47741d37df8f'
 ```
 
-Query parameters
+Accepted query parameters
 
-```
-    priceCurrency     
-    priceCountry      
-    priceCustomerGroup
-    priceChannel      
-    localeProjection   
-    expand
-    version (if ommited, the last version will be obtained from product)
-```
+- priceCurrency     
+- priceCountry      
+- priceCustomerGroup
+- priceChannel      
+- localeProjection   
+- expand
+- version (if ommited, the last version will be obtained from product)
 
 
