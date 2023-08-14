@@ -12,7 +12,7 @@ import (
 	"github.com/labd/commercetools-go-sdk/platform"
 )
 
-func (ct *ctService) Get(c *fiber.Ctx) error {
+func (cts *ctService) Get(c *fiber.Ctx) error {
 
 	id := c.Params("id")
 
@@ -25,11 +25,11 @@ func (ct *ctService) Get(c *fiber.Ctx) error {
 	}
 
 	ctx := context.Background()
-	productResults, err := ct.Connection.Products().WithId(id).Get().WithQueryParams(queryArgs).Execute(ctx)
+	productResults, err := cts.Connection.Products().WithId(id).Get().WithQueryParams(queryArgs).Execute(ctx)
 	return utils.Response(productResults, http.StatusOK, err, c)
 }
 
-func (ct *ctService) Find(c *fiber.Ctx) error {
+func (cts *ctService) Find(c *fiber.Ctx) error {
 
 	queryArgs := platform.ByProjectKeyProductsRequestMethodGetInput{}
 	if err := c.QueryParser(&queryArgs); err != nil {
@@ -40,11 +40,11 @@ func (ct *ctService) Find(c *fiber.Ctx) error {
 	}
 
 	ctx := context.Background()
-	productResults, err := ct.Connection.Products().Get().WithQueryParams(queryArgs).Execute(ctx)
+	productResults, err := cts.Connection.Products().Get().WithQueryParams(queryArgs).Execute(ctx)
 	return utils.Response(productResults, http.StatusOK, err, c)
 }
 
-func (ct *ctService) Create(c *fiber.Ctx) error {
+func (cts *ctService) Create(c *fiber.Ctx) error {
 
 	queryArgs := platform.ByProjectKeyProductsRequestMethodPostInput{}
 	if err := c.QueryParser(&queryArgs); err != nil {
@@ -63,11 +63,11 @@ func (ct *ctService) Create(c *fiber.Ctx) error {
 	}
 
 	ctx := context.Background()
-	productResults, err := ct.Connection.Products().Post(productDraft).WithQueryParams(queryArgs).Execute(ctx)
+	productResults, err := cts.Connection.Products().Post(productDraft).WithQueryParams(queryArgs).Execute(ctx)
 	return utils.Response(productResults, http.StatusOK, err, c)
 }
 
-func (ct *ctService) Update(c *fiber.Ctx) error {
+func (cts *ctService) Update(c *fiber.Ctx) error {
 
 	id := c.Params("id")
 
@@ -88,11 +88,11 @@ func (ct *ctService) Update(c *fiber.Ctx) error {
 	}
 
 	ctx := context.Background()
-	productResults, err := ct.Connection.Products().WithId(id).Post(productUpdate).WithQueryParams(queryArgs).Execute(ctx)
+	productResults, err := cts.Connection.Products().WithId(id).Post(productUpdate).WithQueryParams(queryArgs).Execute(ctx)
 	return utils.Response(productResults, http.StatusOK, err, c)
 }
 
-func (ct *ctService) Remove(c *fiber.Ctx) error {
+func (cts *ctService) Remove(c *fiber.Ctx) error {
 
 	id := c.Params("id")
 
@@ -108,7 +108,7 @@ func (ct *ctService) Remove(c *fiber.Ctx) error {
 
 	if queryArgs.Version == 0 {
 		// Get oldProduct version
-		oldProduct, err := ct.Connection.Products().WithId(id).Get().Execute(ctx)
+		oldProduct, err := cts.Connection.Products().WithId(id).Get().Execute(ctx)
 		if err != nil {
 			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 				"error": err.Error(),
@@ -117,11 +117,11 @@ func (ct *ctService) Remove(c *fiber.Ctx) error {
 		queryArgs.Version = oldProduct.Version
 	}
 
-	productResults, err := ct.Connection.Products().WithId(id).Delete().WithQueryParams(queryArgs).Execute(ctx)
+	productResults, err := cts.Connection.Products().WithId(id).Delete().WithQueryParams(queryArgs).Execute(ctx)
 	return utils.Response(productResults, http.StatusOK, err, c)
 }
 
-func (ct *ctService) SetPublishStatus(action string, c *fiber.Ctx) error {
+func (cts *ctService) SetPublishStatus(action string, c *fiber.Ctx) error {
 
 	id := c.Params("id")
 
@@ -136,7 +136,7 @@ func (ct *ctService) SetPublishStatus(action string, c *fiber.Ctx) error {
 	ctx := context.Background()
 
 	// Get oldProduct version
-	oldProduct, err := ct.Connection.Products().WithId(id).Get().Execute(ctx)
+	oldProduct, err := cts.Connection.Products().WithId(id).Get().Execute(ctx)
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"error": err.Error(),
@@ -158,6 +158,6 @@ func (ct *ctService) SetPublishStatus(action string, c *fiber.Ctx) error {
 		})
 	}
 
-	productResults, err := ct.Connection.Products().WithId(id).Post(productUpdate).WithQueryParams(queryArgs).Execute(ctx)
+	productResults, err := cts.Connection.Products().WithId(id).Post(productUpdate).WithQueryParams(queryArgs).Execute(ctx)
 	return utils.Response(productResults, http.StatusOK, err, c)
 }

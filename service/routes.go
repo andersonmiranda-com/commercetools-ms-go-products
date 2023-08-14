@@ -6,7 +6,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func SetupRoutes(app *fiber.App, service Service) {
+func SetupRoutes(app *fiber.App, cts Service) {
 
 	// Middleware
 	// api := app.Group("/api", middleware.AuthReq())
@@ -20,18 +20,18 @@ func SetupRoutes(app *fiber.App, service Service) {
 			})
 	})
 
-	api.Get("/:id", service.Get)
-	api.Get("/", service.Find)
-	api.Post("/", service.Create)
-	api.Put("/:id", service.Update)
-	api.Delete("/:id", service.Remove)
+	api.Get("/:id", cts.Get)
+	api.Get("/", cts.Find)
+	api.Post("/", cts.Create)
+	api.Put("/:id", cts.Update)
+	api.Delete("/:id", cts.Remove)
 
 	api.Patch("/publish/:id", func(c *fiber.Ctx) error {
-		return service.SetPublishStatus("publish", c)
+		return cts.SetPublishStatus("publish", c)
 	})
 
 	api.Patch("/unpublish/:id", func(c *fiber.Ctx) error {
-		return service.SetPublishStatus("unpublish", c)
+		return cts.SetPublishStatus("unpublish", c)
 	})
 
 }
