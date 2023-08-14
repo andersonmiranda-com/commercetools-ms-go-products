@@ -85,12 +85,7 @@ Accepted query parameters:
 - limit
 - offset
 - withTotal
-
-
-```
-where, priceCurrency, priceCountry, priceCustomerGroup, priceChannel, localeProjection, expand, sort, limit, offset, withTotal    
-```
-
+- 
 
 ### Get Product by ID
 
