@@ -25,8 +25,15 @@ func SetupRoutes(app *fiber.App) {
 	api.Get("/:id", controller.Get)
 	api.Post("/", controller.Create)
 	api.Put("/:id", controller.Update)
-	api.Patch("/publish/:id", controller.Publish)
-	api.Patch("/unpublish/:id", controller.Unpublish)
+
+	api.Patch("/publish/:id", func(c *fiber.Ctx) error {
+		return controller.SetPublishStatus("publish", c)
+	})
+
+	api.Patch("/unpublish/:id", func(c *fiber.Ctx) error {
+		return controller.SetPublishStatus("unpublish", c)
+	})
+
 	api.Delete("/:id", controller.Remove)
 
 }
