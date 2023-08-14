@@ -85,7 +85,6 @@ Accepted query parameters:
 - limit
 - offset
 - withTotal
-- 
 
 ### Get Product by ID
 
