@@ -32,6 +32,14 @@ func Connector() (*platform.ByProjectKeyRequestBuilder, context.Context) {
 
 }
 
+func TestConnection() {
+	projectClient, ctx := Connector()
+	_, err := projectClient.Get().Execute(ctx)
+	if err != nil {
+		log.Fatalf("Error connecting to CommerceTools:\n%v", err)
+	}
+}
+
 // // Get or Createa product type
 // productTypeDraft := platform.ProductTypeDraft{
 // 	Name: "a-product-type",
