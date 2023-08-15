@@ -3,6 +3,7 @@ package service
 import (
 	"commercetools-ms-product/config"
 	"log"
+	"strings"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/labd/commercetools-go-sdk/platform"
@@ -28,13 +29,15 @@ func NewService() Service {
 
 func NewConnection() *platform.ByProjectKeyRequestBuilder {
 
+	scopes := strings.Split(config.Getenv("CT_SCOPE"), " ")
+
 	client, err := platform.NewClient(&platform.ClientConfig{
 		URL: config.Getenv("CT_API_URL"),
 		Credentials: &clientcredentials.Config{
 			TokenURL:     config.Getenv("CT_AUTH_URL") + "/oauth/token",
 			ClientID:     config.Getenv("CT_CLIENT_ID"),
 			ClientSecret: config.Getenv("CT_CLIENT_SECRET"),
-			Scopes:       []string{config.Getenv("CT_SCOPE")},
+			Scopes:       scopes,
 		},
 	})
 
