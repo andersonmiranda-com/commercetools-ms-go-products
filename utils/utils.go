@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"errors"
 	"net/http"
 
 	"github.com/gofiber/fiber/v2"
@@ -10,7 +11,7 @@ import (
 func Response(data interface{}, httpStatus int, err error, c *fiber.Ctx) error {
 
 	if err != nil {
-		if err.Error() == "resource not found" {
+		if errors.Is(err, platform.ErrNotFound) {
 			return c.Status(404).JSON(map[string]string{
 				"error": err.Error(),
 			})
