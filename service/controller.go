@@ -25,8 +25,8 @@ func (cts *ctService) Get(c *fiber.Ctx) error {
 	}
 
 	ctx := context.Background()
-	productResults, err := cts.Connection.Products().WithId(id).Get().WithQueryParams(queryArgs).Execute(ctx)
-	return utils.Response(productResults, http.StatusOK, err, c)
+	result, err := cts.Connection.Products().WithId(id).Get().WithQueryParams(queryArgs).Execute(ctx)
+	return utils.Response(&result, http.StatusOK, err, c)
 }
 
 func (cts *ctService) Find(c *fiber.Ctx) error {
@@ -40,8 +40,8 @@ func (cts *ctService) Find(c *fiber.Ctx) error {
 	}
 
 	ctx := context.Background()
-	productResults, err := cts.Connection.Products().Get().WithQueryParams(queryArgs).Execute(ctx)
-	return utils.Response(productResults, http.StatusOK, err, c)
+	results, err := cts.Connection.Products().Get().WithQueryParams(queryArgs).Execute(ctx)
+	return utils.Response(&results, http.StatusOK, err, c)
 }
 
 func (cts *ctService) Create(c *fiber.Ctx) error {
@@ -63,8 +63,8 @@ func (cts *ctService) Create(c *fiber.Ctx) error {
 	}
 
 	ctx := context.Background()
-	productResults, err := cts.Connection.Products().Post(productDraft).WithQueryParams(queryArgs).Execute(ctx)
-	return utils.Response(productResults, http.StatusOK, err, c)
+	result, err := cts.Connection.Products().Post(productDraft).WithQueryParams(queryArgs).Execute(ctx)
+	return utils.Response(&result, http.StatusOK, err, c)
 }
 
 func (cts *ctService) Update(c *fiber.Ctx) error {
@@ -88,8 +88,8 @@ func (cts *ctService) Update(c *fiber.Ctx) error {
 	}
 
 	ctx := context.Background()
-	productResults, err := cts.Connection.Products().WithId(id).Post(productUpdate).WithQueryParams(queryArgs).Execute(ctx)
-	return utils.Response(productResults, http.StatusOK, err, c)
+	result, err := cts.Connection.Products().WithId(id).Post(productUpdate).WithQueryParams(queryArgs).Execute(ctx)
+	return utils.Response(&result, http.StatusOK, err, c)
 }
 
 func (cts *ctService) Remove(c *fiber.Ctx) error {
@@ -117,8 +117,8 @@ func (cts *ctService) Remove(c *fiber.Ctx) error {
 		queryArgs.Version = oldProduct.Version
 	}
 
-	productResults, err := cts.Connection.Products().WithId(id).Delete().WithQueryParams(queryArgs).Execute(ctx)
-	return utils.Response(productResults, http.StatusOK, err, c)
+	result, err := cts.Connection.Products().WithId(id).Delete().WithQueryParams(queryArgs).Execute(ctx)
+	return utils.Response(&result, http.StatusOK, err, c)
 }
 
 func (cts *ctService) SetPublishStatus(action string, c *fiber.Ctx) error {
@@ -158,6 +158,6 @@ func (cts *ctService) SetPublishStatus(action string, c *fiber.Ctx) error {
 		})
 	}
 
-	productResults, err := cts.Connection.Products().WithId(id).Post(productUpdate).WithQueryParams(queryArgs).Execute(ctx)
-	return utils.Response(productResults, http.StatusOK, err, c)
+	result, err := cts.Connection.Products().WithId(id).Post(productUpdate).WithQueryParams(queryArgs).Execute(ctx)
+	return utils.Response(&result, http.StatusOK, err, c)
 }
